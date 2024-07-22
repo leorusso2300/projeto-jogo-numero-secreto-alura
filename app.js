@@ -2,83 +2,83 @@ let numeroMarcado;
 let numeroAleatorio;
 let numeroTentativas;
 
-let botaoChutar = document.getElementById("botaoChutar");
-let caixaDeTexto = document.getElementById('caixaDeTexto');
-
-
-function geraNumeroAleatorio() {
+function gerarNumeroAleatorio() {
     return Math.floor(Math.random() * numeroMarcado) + 1;
 }
 
-function exibeTextos() {
+function iniciarJogo() {
     numeroTentativas = 1;
-    exibirTextoNaTela('p', `Escolha um número entre 1 e ${numeroMarcado}`);
-    caixaDeTexto.disabled = false;
-    caixaDeTexto.value = '';
-    exibirTextoNaTela('h1', 'Jogo do número secreto');
-    numeroAleatorio = geraNumeroAleatorio();
+    atualizarTextoNaTela('p', `Escolha um número entre 1 e ${numeroMarcado}`);
+    document.getElementById("caixaDeTexto").disabled = false;
+    document.getElementById('caixaDeTexto').value = '';
+    atualizarTextoNaTela('h1', 'Jogo do número secreto');
+    numeroAleatorio = gerarNumeroAleatorio();
 }
 
-function exibirTextoNaTela(tag, texto) {
-    let campo = document.querySelector(tag);
-    campo.innerHTML = texto;
+function atualizarTextoNaTela(tag, texto) {
+    let elemento = document.querySelector(tag);
+    elemento.innerHTML = texto;
 }
 
-function limpaTextoEdesabilitaBotao() {
-    botaoChutar.disabled = true;
-    caixaDeTexto.value = '';
+function limparInputEDesabilitarBotao() {
+    document.getElementById("botaoChutar").disabled = true;
+    document.getElementById('caixaDeTexto').value = '';
 }
 
-function verificarChute() {
-    verificarTamanhoNumeroEscolhido(document.getElementById('caixaDeTexto').value);
-    numeroTentativas = numeroTentativas + 1;
+function processarChute() {
+    verificarNumero(document.getElementById('caixaDeTexto').value);
+    numeroTentativas++;
 }
 
-function verificarTamanhoNumeroEscolhido(numeroEscolhido) {
+function verificarNumero(numeroEscolhido) {
     if (numeroAleatorio < numeroEscolhido) {
-        exibirTextoNaTela('p', 'O número aleatório é MENOR que o número escolhido!');
-        limpaTextoEdesabilitaBotao();
+        atualizarTextoNaTela('p', 'O número aleatório é MENOR que o número escolhido!');
+        limparInputEDesabilitarBotao();
     } else if (numeroAleatorio > numeroEscolhido) {
-        exibirTextoNaTela('p', 'O número aleatório é MAIOR que o número escolhido!');
-        limpaTextoEdesabilitaBotao();
+        atualizarTextoNaTela('p', 'O número aleatório é MAIOR que o número escolhido!');
+        limparInputEDesabilitarBotao();
     } else {
-        exibirTextoNaTela('h1', 'Acertou!');
+        atualizarTextoNaTela('h1', 'Acertou!');
         let palavraTentativa = numeroTentativas > 1 ? 'tentativas' : 'tentativa';
-        exibirTextoNaTela('p', `Você descobriu o número secreto com ${numeroTentativas} ${palavraTentativa}`);
-        desabilitarBotoes();
+        atualizarTextoNaTela('p', `Você descobriu o número secreto com ${numeroTentativas} ${palavraTentativa}`);
+        desabilitarInputEBotao();
     }
 }
 
-function habilitarBotao() {
-    if (caixaDeTexto.trim() !== "" && parseInt(caixaDeTexto) > 0 && parseInt(caixaDeTexto) <= numeroMarcado) {
+function habilitarBotaoChutar() {
+    var numeroEscolhido = document.getElementById("caixaDeTexto").value;
+    var botaoChutar = document.getElementById("botaoChutar");
+
+    if (numeroEscolhido.trim() !== "" && parseInt(numeroEscolhido) > 0 && parseInt(numeroEscolhido) <= numeroMarcado) {
         botaoChutar.disabled = false;
     } else {
         botaoChutar.disabled = true;
     }
 }
 
-function desabilitarBotoes() {
-    caixaDeTexto.disabled = true;
-    botaoChutar.disabled = true;
+function desabilitarInputEBotao() {
+    document.getElementById("caixaDeTexto").disabled = true;
+    document.getElementById("botaoChutar").disabled = true;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    updateResult();
+    atualizarPaginaInicial();
     document.querySelectorAll('input[name="option"]').forEach(radio => {
-        radio.addEventListener('change', updateResult);
+        radio.addEventListener('change', atualizarPaginaInicial);
     });
 });
 
-function updateResult() {
+function atualizarPaginaInicial() {
+    var botaoChutar = document.getElementById("botaoChutar");
     botaoChutar.disabled = true;
-    const selectedRadio = document.querySelector('input[name="option"]:checked');
-    numeroMarcado = parseInt(selectedRadio.value);
-    exibirTextoNaTela('p', `Escolha um número entre 1 e ${numeroMarcado}`);
-    atualizarTamanhoDaCaixa(numeroMarcado);
-    exibeTextos();
+    const radioSelecionado = document.querySelector('input[name="option"]:checked');
+    numeroMarcado = parseInt(radioSelecionado.value);
+    atualizarTextoNaTela('p', `Escolha um número entre 1 e ${numeroMarcado}`);
+    ajustarMaximoInput(numeroMarcado);
+    iniciarJogo();
 }
 
-function atualizarTamanhoDaCaixa(valorMaximo) {
-    const numberInput = document.getElementById('caixaDeTexto');
-    numberInput.max = valorMaximo;
+function ajustarMaximoInput(valorMaximo) {
+    const inputNumero = document.getElementById('caixaDeTexto');
+    inputNumero.max = valorMaximo;
 }
