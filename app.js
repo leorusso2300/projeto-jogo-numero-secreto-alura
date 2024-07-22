@@ -2,22 +2,24 @@ let numeroMarcado;
 let numeroAleatorio;
 let numeroTentativas;
 
-function gerarNumeroAleatorio() {
+function geraNumeroAleatorio() {
     return Math.floor(Math.random() * numeroMarcado) + 1;
 }
 
 function iniciarJogo() {
     numeroTentativas = 1;
+    limparInputEDesabilitarBotao();
     atualizarTextoNaTela('p', `Escolha um número entre 1 e ${numeroMarcado}`);
     document.getElementById("caixaDeTexto").disabled = false;
     document.getElementById('caixaDeTexto').value = '';
     atualizarTextoNaTela('h1', 'Jogo do número secreto');
-    numeroAleatorio = gerarNumeroAleatorio();
+    numeroAleatorio = geraNumeroAleatorio();
+    console.log(numeroAleatorio)
 }
 
 function atualizarTextoNaTela(tag, texto) {
-    let elemento = document.querySelector(tag);
-    elemento.innerHTML = texto;
+    let campo = document.querySelector(tag);
+    campo.innerHTML = texto;
 }
 
 function limparInputEDesabilitarBotao() {
@@ -27,7 +29,7 @@ function limparInputEDesabilitarBotao() {
 
 function processarChute() {
     verificarNumero(document.getElementById('caixaDeTexto').value);
-    numeroTentativas++;
+    numeroTentativas = numeroTentativas + 1;
 }
 
 function verificarNumero(numeroEscolhido) {
@@ -46,10 +48,10 @@ function verificarNumero(numeroEscolhido) {
 }
 
 function habilitarBotaoChutar() {
-    var numeroEscolhido = document.getElementById("caixaDeTexto").value;
+    var caixaDeTexto = document.getElementById("caixaDeTexto").value;
     var botaoChutar = document.getElementById("botaoChutar");
 
-    if (numeroEscolhido.trim() !== "" && parseInt(numeroEscolhido) > 0 && parseInt(numeroEscolhido) <= numeroMarcado) {
+    if (caixaDeTexto.trim() !== "" && parseInt(caixaDeTexto) > 0 && parseInt(caixaDeTexto) <= numeroMarcado) {
         botaoChutar.disabled = false;
     } else {
         botaoChutar.disabled = true;
@@ -69,16 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function atualizarPaginaInicial() {
-    var botaoChutar = document.getElementById("botaoChutar");
-    botaoChutar.disabled = true;
-    const radioSelecionado = document.querySelector('input[name="option"]:checked');
-    numeroMarcado = parseInt(radioSelecionado.value);
+    document.getElementById("botaoChutar").disabled = true;
+    numeroMarcado = parseInt(document.querySelector('input[name="option"]:checked').value);
     atualizarTextoNaTela('p', `Escolha um número entre 1 e ${numeroMarcado}`);
     ajustarMaximoInput(numeroMarcado);
     iniciarJogo();
 }
 
 function ajustarMaximoInput(valorMaximo) {
-    const inputNumero = document.getElementById('caixaDeTexto');
-    inputNumero.max = valorMaximo;
+    document.getElementById('caixaDeTexto').max = valorMaximo;
 }
