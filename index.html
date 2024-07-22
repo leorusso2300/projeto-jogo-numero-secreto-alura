@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Inter:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>JS Game</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="container__conteudo">
+            <div class="container__informacoes">
+                <div class="container__texto">
+                    <h1></h1>
+                    <form>
+                        <fieldset class="radio-group">
+                            <legend>Selecione o número máximo</legend>
+                            <div class="radio-container">
+                                <label>
+                                    <input type="radio" class="teste" name="option" value="10" checked
+                                        onclick="atualizarTamanhoDaCaixa(10)">
+                                    10
+                                </label>
+                                <label>
+                                    <input type="radio" class="teste" name="option" value="50"
+                                        onclick="atualizarTamanhoDaCaixa(50)">
+                                    50
+                                </label>
+                                <label>
+                                    <input type="radio" class="teste" name="option" value="100"
+                                        onclick="atualizarTamanhoDaCaixa(100)">
+                                    100
+                                </label>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <p class="texto__paragrafo"></p>
+                </div>
+                <input type="number" min="1" max="10" id="caixaDeTexto" class="container__input"
+                    oninput="habilitarBotao()">
+                <div class="chute container__botoes">
+                    <button onclick="verificarChute()" id="botaoChutar" class="container__botao"
+                        disabled>Chutar</button>
+                    <button onclick="exibeTextos()" id="reiniciar" class="container__botao">Novo jogo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js" defer></script>
+</body>
+
+</html>
