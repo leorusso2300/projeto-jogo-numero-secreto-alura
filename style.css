@@ -10,7 +10,7 @@ body {
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.9); /* Fundo branco com leve transparência para destacar o conteúdo */
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     padding: 30px;
@@ -36,18 +36,37 @@ body {
 
 .radio-group {
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center; /* Centraliza os botões de rádio horizontalmente */
+    flex-wrap: wrap; /* Permite que os botões se movam para a linha seguinte, se necessário */
+}
+
+.radio-container {
+    display: flex;
+    gap: 10px; /* Espaço entre os botões de rádio */
+    font-size: 14px; /* Tamanho da fonte reduzido para compactar o grupo */
 }
 
 .radio-container label {
-    display: inline-block;
-    margin: 0 10px;
-    font-size: 18px;
-    color: #555;
+    display: flex;
+    align-items: center; /* Alinha verticalmente o texto e o botão de rádio */
+    margin: 0;
     cursor: pointer;
 }
 
-.radio-container input {
+.radio-container input[type="radio"] {
+    width: 16px; /* Largura do botão de rádio */
+    height: 16px; /* Altura do botão de rádio */
     margin-right: 5px;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 0 auto;
+    width: 80%; /* Ajuste a largura do fieldset conforme necessário */
+    box-sizing: border-box; /* Inclui o padding e a borda no tamanho total do elemento */
 }
 
 .container__input {
@@ -58,12 +77,14 @@ body {
     border: 2px solid #ccc;
     border-radius: 8px;
     text-align: center;
+    box-sizing: border-box; /* Inclui o padding e a borda no tamanho total do elemento */
+    cursor: text; /* Define o cursor de texto */
 }
 
 .container__botoes {
     display: flex;
     justify-content: space-around;
-    gap: 10px; 
+    gap: 10px; /* Espaço entre os botões */
 }
 
 .container__botao {
@@ -79,7 +100,7 @@ body {
 }
 
 .container__botao#botaoChutar {
-    background-color: #007BFF; 
+    background-color: #007BFF; /* Azul */
 }
 
 .container__botao#botaoChutar:disabled {
@@ -112,8 +133,8 @@ body {
         font-size: 24px;
     }
 
-    .radio-container label {
-        font-size: 16px;
+    .radio-container {
+        font-size: 12px; /* Tamanho da fonte reduzido em telas menores */
     }
 
     .container__input {
