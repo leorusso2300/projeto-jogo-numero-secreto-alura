@@ -1,6 +1,7 @@
 let numeroMarcado;
 let numeroAleatorio;
 let numeroTentativas;
+const textoOriginalH1 = document.getElementById('tituloJogo').innerHTML;
 
 function geraNumeroAleatorio() {
     return Math.floor(Math.random() * numeroMarcado) + 1;
@@ -8,40 +9,44 @@ function geraNumeroAleatorio() {
 
 function iniciarJogo() {
     numeroTentativas = 1;
-    limparInputEDesabilitarBotao();
+    document.getElementById('tituloJogo').innerHTML = textoOriginalH1;
     atualizarTextoNaTela('p', `Escolha um número entre 1 e ${numeroMarcado}`);
     document.getElementById("caixaDeTexto").disabled = false;
     document.getElementById('caixaDeTexto').value = '';
-    atualizarTextoNaTela('h1', 'Jogo do número secreto');
     numeroAleatorio = geraNumeroAleatorio();
-    console.log(numeroAleatorio)
+    console.log(numeroAleatorio);
+    habilitarBotaoChutar();
 }
 
-function atualizarTextoNaTela(tag, texto) {
+function atualizarTextoNaTela(tag, texto, delay = 3) {
     let campo = document.querySelector(tag);
     campo.innerHTML = texto;
+    if (window.responsiveVoice) {
+        setTimeout(() => {
+            responsiveVoice.speak(texto, 'Brazilian Portuguese Female', { rate: 1.2 });
+        }, delay);
+    }
 }
-
-function limparInputEDesabilitarBotao() {
-    document.getElementById("botaoChutar").disabled = true;
-    document.getElementById('caixaDeTexto').value = '';
-}
-
 function processarChute() {
-    verificarNumero(document.getElementById('caixaDeTexto').value);
-    numeroTentativas = numeroTentativas + 1;
+    const chute = document.getElementById('caixaDeTexto').value;
+    if (chute.trim() !== "" && parseInt(chute) > 0 && parseInt(chute) <= numeroMarcado) {
+        verificarNumero(parseInt(chute));
+        numeroTentativas += 1;
+    }
 }
 
 function verificarNumero(numeroEscolhido) {
     if (numeroAleatorio < numeroEscolhido) {
-        atualizarTextoNaTela('p', 'O número aleatório é MENOR que o número escolhido!');
-        limparInputEDesabilitarBotao();
+        atualizarTextoNaTela('p', 'O número aleatório é menor que o número escolhido!');
+        document.getElementById('caixaDeTexto').value = '';
+        habilitarBotaoChutar();
     } else if (numeroAleatorio > numeroEscolhido) {
-        atualizarTextoNaTela('p', 'O número aleatório é MAIOR que o número escolhido!');
-        limparInputEDesabilitarBotao();
+        atualizarTextoNaTela('p', 'O número aleatório é maior que o número escolhido!');
+        document.getElementById('caixaDeTexto').value = '';
+        habilitarBotaoChutar();
     } else {
-        atualizarTextoNaTela('h1', 'Acertou!');
         let palavraTentativa = numeroTentativas > 1 ? 'tentativas' : 'tentativa';
+        atualizarTextoNaTela('h1', 'Acertou!');
         atualizarTextoNaTela('p', `Você descobriu o número secreto com ${numeroTentativas} ${palavraTentativa}`);
         desabilitarInputEBotao();
     }
@@ -71,9 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function atualizarPaginaInicial() {
-    document.getElementById("botaoChutar").disabled = true;
     numeroMarcado = parseInt(document.querySelector('input[name="option"]:checked').value);
-    atualizarTextoNaTela('p', `Escolha um número entre 1 e ${numeroMarcado}`);
     ajustarMaximoInput(numeroMarcado);
     iniciarJogo();
 }
