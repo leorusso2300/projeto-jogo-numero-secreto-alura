@@ -19,7 +19,7 @@
         <div class="container__conteudo">
             <div class="container__informacoes">
                 <div class="container__texto">
-                    <h1></h1>
+                    <h1 id="tituloJogo">Jogo do número secreto</h1>
                     <form>
                         <fieldset class="radio-group">
                             <legend>Selecione o número máximo</legend>
@@ -44,8 +44,7 @@
                     </form>
                     <p class="texto__paragrafo"></p>
                 </div>
-                <input type="number" min="1" max="10" id="caixaDeTexto" class="container__input"
-                    oninput="habilitarBotaoChutar()">
+                <input type="number" min="1" max="10" id="caixaDeTexto" class="container__input" autofocus oninput="habilitarBotaoChutar()">
                 <div class="chute container__botoes">
                     <button onclick="processarChute()" id="botaoChutar" class="container__botao"
                         disabled>Chutar</button>
